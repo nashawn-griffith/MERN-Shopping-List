@@ -75,7 +75,7 @@ router.post('/register', async (req, res) => {
 
     body = {
       meta: {statusCode: 200, token},
-      data: {user},
+      data: user,
       err: null
     };
 
@@ -97,7 +97,7 @@ router.get(
   (req, res) => {
     const body = {
       meta: {statusCode: 200},
-      body: req.user,
+      data: req.user,
       err: null
     };
     return res.status(200).json(body);

@@ -4,7 +4,6 @@ import {
   DELETE_ITEM,
   ITEMS_LOADING
 } from '../actions/types';
-import uuid from 'uuid';
 const initialState = {
   items: [],
   loading: false
@@ -12,12 +11,11 @@ const initialState = {
 
 export const itemReducer = (state = initialState, action) => {
   const {type, payload} = action;
-
   switch (type) {
     case GET_ITEMS:
       return {
         ...state,
-        items: payload.data.items,
+        items: payload.items,
         loading: false
       };
     case ADD_ITEM:

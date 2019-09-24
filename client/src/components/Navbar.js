@@ -1,13 +1,17 @@
 import React, {Component, Fragment} from 'react';
+import {Link, NavLink} from 'react-router-dom';
 import {
   Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink
+  NavItem
+  //NavLink
 } from 'reactstrap';
+
+import RegisterModal from './auth/RegisterModal';
+import ItemModal from './ItemModal';
 
 class AppNavbar extends Component {
   state = {
@@ -27,9 +31,30 @@ class AppNavbar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className='ml-auto' navbar>
               <NavItem>
-                <NavLink href='https://github.com/reactstrap/reactstrap'>
-                  GitHub
+                <NavLink
+                  exact
+                  to='/'
+                  className='nav-link'
+                  activeClassName='active'
+                >
+                  Home
                 </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  exact
+                  to='/items'
+                  className='nav-link'
+                  activeClassName='active'
+                >
+                  List Items
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <ItemModal />
+              </NavItem>
+              <NavItem>
+                <RegisterModal />
               </NavItem>
             </Nav>
           </Collapse>

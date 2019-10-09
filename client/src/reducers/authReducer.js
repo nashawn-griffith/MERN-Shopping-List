@@ -1,62 +1,56 @@
-// import {
-//   USER_LOADED,
-//   USER_LOADING,
-//   AUTH_ERROR,
-//   LOGIN_SUCCESS,
-//   LOGIN_FAIL,
-//   LOGOUT_SUCCESS,
-//   REGISTER_SUCCESS,
-//   REGISTER_FAIL
-// } from '../actions/types';
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  USER_LOADED,
+  USER_LOADING,
+  AUTH_ERROR,
+  LOGOUT
+} from '../actions/types';
 
-// const initialState = {
-//   token: localStorage.getItem('token'),
-//   isAuthenticated: null,
-//   isLoading: false,
-//   user: null
-// };
+const initialState = {
+  token: localStorage.getItem('token'),
+  isAuthenticated: null,
+  isLoading: true,
+  user: null
+};
 
-// export const authReducer = (state = initialState, action) => {
-//   const {type, payload} = action;
+export const authReducer = (state = initialState, action) => {
+  const {type, payload} = action;
 
-//   switch (type) {
-//     case USER_LOADING:
-//       return {
-//         ...state,
-//         isLoading: true
-//       };
+  switch (type) {
+    case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', 'token goes here');
+      return {
+        ...state,
+        isAuthenticated: true,
+        isLoading: false,
+        //...payload
+        user: 'the user from database'
+      };
+    case REGISTER_FAIL:
+    case AUTH_ERROR:
+    case LOGIN_FAIL:
+    case LOGOUT:
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        isLoading: false
+      };
 
-//     case USER_LOADED:
-//       return {
-//         ...state,
-//         isAuthenticated: true,
-//         isLoading: false,
-//         user: payload.data
-//       };
-//     case LOGIN_SUCCESS:
-//     case REGISTER_SUCCESS:
-//       const token = payload.meta.token;
-//       localStorage.setItem('token', token);
-//       return {
-//         ...state,
-//         isAuthenticated: true,
-//         isLoading: false,
-//         user: 'User Just logged in'
-//       };
-//     case AUTH_ERROR:
-//     case LOGIN_FAIL:
-//     case LOGOUT_SUCCESS:
-//     case REGISTER_FAIL:
-//       localStorage.removeItem('token');
-//       return {
-//         ...state,
-//         token: null,
-//         user: null,
-//         isAuthenticated: false,
-//         isLoading: false
-//       };
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthenticated: true,
+        isLoading: false,
+        user: 'payload.data'
+      };
 
-//     default:
-//       return state;
-//   }
-// };
+    default:
+      return state;
+  }
+};

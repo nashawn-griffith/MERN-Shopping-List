@@ -1,10 +1,17 @@
-import {GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING} from './types';
+import {
+  GET_ITEMS,
+  ADD_ITEM,
+  DELETE_ITEM,
+  ITEMS_LOADING,
+  NO_ITEMS
+} from './types';
 import {displayAlert} from './alertActions';
 import axios from 'axios';
 
 export const getItem = () => async dispatch => {
   dispatch(setItemLoading());
   const result = await axios.get('/api/items/');
+  console.log(result.data);
 
   if (result.data) {
     dispatch({
@@ -12,6 +19,9 @@ export const getItem = () => async dispatch => {
       payload: result.data.data
     });
   }
+  dispatch({
+    type: NO_ITEMS
+  });
 };
 
 export const addItem = item => async dispatch => {

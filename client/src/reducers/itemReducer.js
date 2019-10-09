@@ -2,7 +2,8 @@ import {
   GET_ITEMS,
   ADD_ITEM,
   DELETE_ITEM,
-  ITEMS_LOADING
+  ITEMS_LOADING,
+  NO_ITEMS
 } from '../actions/types';
 const initialState = {
   items: [],
@@ -16,6 +17,11 @@ export const itemReducer = (state = initialState, action) => {
       return {
         ...state,
         items: payload.items,
+        loading: false
+      };
+    case NO_ITEMS:
+      return {
+        ...state,
         loading: false
       };
     case ADD_ITEM:

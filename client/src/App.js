@@ -9,9 +9,9 @@ import {connect} from 'react-redux';
 import {loadUser} from './actions/authActions';
 
 class App extends Component {
-  // componentDidMount() {
-  //   this.props.loadUser();
-  // }
+  componentDidMount() {
+    this.props.loadUser();
+  }
 
   render() {
     return (

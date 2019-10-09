@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {ListGroup, ListGroupItem, Button} from 'reactstrap';
+import {ListGroup, ListGroupItem, Button, Spinner} from 'reactstrap';
 import {connect} from 'react-redux';
 import {getItem, deleteItem} from '../actions/itemActions';
 
@@ -8,12 +8,16 @@ class ShoppingList extends Component {
     this.props.deleteItem(id);
   };
 
-  componentDidMount() {
-    this.props.getItem();
+  async componentDidMount() {
+    await this.props.getItem();
   }
 
   noData = () => {
     return <div>No Items to display</div>;
+  };
+
+  loadingData = () => {
+    return <Spinner color='dark' type='grow' />;
   };
 
   displayData = () => {
@@ -35,13 +39,28 @@ class ShoppingList extends Component {
     });
   };
 
+  renderData = () => {
+    const {items, loading} = this.props;
+
+    /*loading data*/
+    if (loading) {
+      return this.loadingData();
+    }
+
+    /*display data. loading complete*/
+    if (items.length !== 0 && !loading) {
+      return this.displayData();
+    }
+
+    return this.noData();
+  };
+
   render() {
-    const {items} = this.props;
+    const {items, loading} = this.props;
+
     return (
       <Fragment>
-        <ListGroup>
-          {items.length !== 0 ? this.displayData() : this.noData()}
-        </ListGroup>
+        <ListGroup>{this.renderData()}</ListGroup>
       </Fragment>
     );
   }
@@ -49,7 +68,8 @@ class ShoppingList extends Component {
 
 const mapStateToProps = state => {
   return {
-    items: state.items.items
+    items: state.items.items,
+    loading: state.items.loading
   };
 };
 
